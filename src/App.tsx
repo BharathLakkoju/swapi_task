@@ -6,7 +6,7 @@ import Pagination from "./components/Pagination";
 const App: React.FC = () => {
   return (
     <>
-      <div className="bg-slate-800">
+      <div>
         <Pagination />
       </div>
     </>
