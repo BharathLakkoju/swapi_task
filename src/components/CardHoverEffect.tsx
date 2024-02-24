@@ -1,10 +1,13 @@
 import { cn } from "../utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import ResidentCard from "./ResidentCard";
+import FilmCard from "./FilmCard";
 
 export const HoverEffect = ({
   items,
   className,
+  isLoading,
 }: {
   items: {
     name: string;
@@ -22,9 +25,9 @@ export const HoverEffect = ({
     url: string;
   }[];
   className?: string;
+  isLoading?: boolean;
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   return (
     <div
       className={cn(
@@ -32,70 +35,86 @@ export const HoverEffect = ({
         className
       )}
     >
-      {items.map((item, idx) => (
-        <div
-          key={item?.url}
-          className="relative block w-full h-full p-2 group"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
-                layoutId="hoverBackground"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { duration: 0.15 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
-                }}
-              />
-            )}
-          </AnimatePresence>
-          <Card>
-            <CardTitle>
-              <div className="flex flex-col">
-                <span className="text-xs font-medium">Planet Name: </span>
-                <span className="text-2xl font-extrabold text-blue-400">
-                  {item.name}
-                </span>
-              </div>
-            </CardTitle>
-            <CardDescription>
-              <div>
+      {isLoading ? (
+        <div className="text-3xl text-white">Loading...</div>
+      ) : (
+        items.map((item, idx) => (
+          <div
+            key={item?.url}
+            className="relative block w-full h-full p-2 group"
+            onMouseEnter={() => setHoveredIndex(idx)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <AnimatePresence>
+              {hoveredIndex === idx && (
+                <motion.span
+                  className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                  layoutId="hoverBackground"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    transition: { duration: 0.15 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: 0.15, delay: 0.2 },
+                  }}
+                />
+              )}
+            </AnimatePresence>
+            <Card>
+              <CardTitle>
                 <div className="flex flex-col">
-                  <span className="text-xs font-medium">Rotation Period: </span>
-                  <span className="text-xl font-semibold text-blue-400">
-                    {item.rotation_period}
+                  <span className="text-xs font-medium">Planet Name: </span>
+                  <span className="text-2xl font-extrabold text-blue-400">
+                    {item.name}
                   </span>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium">Orbital Period: </span>
-                  <span className="text-xl font-semibold text-blue-400">
-                    {item.orbital_period}
-                  </span>
+              </CardTitle>
+              <CardDescription>
+                <div className="flex flex-col justify-between gap-5">
+                  <div className="flex flex-row flex-wrap gap-5 md:col-gap-10 md:row-gap-5">
+                    <div className="flex flex-col">
+                      <span className="text-xs font-medium">
+                        Rotation Period{" "}
+                      </span>
+                      <span className="text-xl font-semibold text-blue-400 md:text-lg">
+                        {item.rotation_period}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-medium">
+                        Orbital Period{" "}
+                      </span>
+                      <span className="text-xl font-semibold text-blue-400 md:text-lg">
+                        {item.orbital_period}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-medium">Diameter </span>
+                      <span className="text-xl font-semibold text-blue-400 md:text-lg">
+                        {item.diameter}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-medium">Climate </span>
+                      <span className="text-xl font-semibold text-blue-400 md:text-lg">
+                        {item.climate}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <ResidentCard urls={item.residents} />
+                  </div>
+                  <div>
+                    <FilmCard urls={item.films} />
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium">Diameter: </span>
-                  <span className="text-xl font-semibold text-blue-400">
-                    {item.diameter}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium">Climate: </span>
-                  <span className="text-xl font-semibold text-blue-400">
-                    {item.climate}
-                  </span>
-                </div>
-              </div>
-            </CardDescription>
-          </Card>
-        </div>
-      ))}
+              </CardDescription>
+            </Card>
+          </div>
+        ))
+      )}
     </div>
   );
 };

@@ -7,22 +7,6 @@ interface NumberProps {
   pageNumber: number;
 }
 
-// interface PlanetProps {
-//   name: string;
-//   rotation_period: string;
-//   orbital_period: string;
-//   diameter: string;
-//   climate: string;
-//   gravity: string;
-//   terrain: string;
-//   surface_water: string;
-//   residents: string[];
-//   films: string[];
-//   created: string;
-//   edited: string;
-//   url: string;
-// }
-
 const PlanetList = ({ pageNumber }: NumberProps) => {
   const [planets, setPlanets] = useState([]);
   useEffect(() => {
@@ -38,7 +22,10 @@ const PlanetList = ({ pageNumber }: NumberProps) => {
   return (
     <>
       <div>
-        <HoverEffect items={planets} />
+        <HoverEffect
+          items={planets}
+          isLoading={planets.length > 0 ? false : true}
+        />
       </div>
     </>
   );

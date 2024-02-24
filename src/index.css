@@ -8,3 +8,10 @@ body {
   background-size: cover;
   backdrop-filter: blur(5px);
 }
+.hide-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
