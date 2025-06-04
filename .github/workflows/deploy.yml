@@ -34,7 +34,8 @@ jobs:
       - name: Configure Docker
         if: steps.check_commit.outputs.should_deploy == 'true'
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+          gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin us-central1-docker.pkg.dev
 
       - name: Build Docker image
         if: steps.check_commit.outputs.should_deploy == 'true'
