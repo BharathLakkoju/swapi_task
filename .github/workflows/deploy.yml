@@ -31,10 +31,12 @@ jobs:
             echo "should_deploy=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Configure Docker
+      - name: Authenticate Docker to Artifact Registry
         if: steps.check_commit.outputs.should_deploy == 'true'
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          echo '${{ secrets.GCP_SA_KEY }}' > ${HOME}/gcloud.json
+          gcloud auth activate-service-account --key-file=${HOME}/gcloud.json
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       - name: Build Docker image
         if: steps.check_commit.outputs.should_deploy == 'true'
