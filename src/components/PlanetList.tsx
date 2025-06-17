@@ -12,7 +12,7 @@ const PlanetList = ({ pageNumber }: NumberProps) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `https://swapi.dev/api/planets/?page=${pageNumber}&?format=json`
+        `https://swapi.tech/api/planets/?page=${pageNumber}&?format=json`
       );
       const data = await response.data.results;
       setPlanets(data);
